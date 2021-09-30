@@ -6,19 +6,19 @@ namespace StringUtilsClassLibrary
     [MemoryDiagnoser]
     public class StringUtilsBenchmarkDemo
     {
-        //[Benchmark]
+        [Benchmark]
         public string ReverseCase()
         {
             return StringUtils.ReverseCase("Sample text");
         }
 
-        //[Benchmark]
+        [Benchmark]
         public float GetWidth()
         {
             return StringUtils.GetWidth("Sample text", new Font("Consolas", 16));
         }
 
-        //[Benchmark]
+        [Benchmark]
         public string SetWordWrap()
         {
             return StringUtils.SetWordWrap("New long sample text to be split in word wrap", 20);
