@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
@@ -9,6 +10,12 @@ namespace ConsoleApp
     class Program
     {
         static void Main(string[] args)
+        {
+            //Console.WriteLine(StringUtils.TranslateByteString2("01101000011101000111010001110000001110100010111100101111011101110111011101110111001011100110010101100101011011000111001101101100011000010111000000101110011000110110111101101101"));
+            StartStringUtils();
+        }
+
+        private static void StartStringUtils()
         {
             Console.WriteLine("String Case Reversing:");
             Console.WriteLine("* Hello World!".ReverseCase());
@@ -27,6 +34,18 @@ namespace ConsoleApp
             Console.WriteLine($"* Long text with 60 word wrap:\n{longText.SetWordWrap(60)}");
             Console.WriteLine($"* Long text with 30 word wrap:\n{longText.SetWordWrap(30)}");
             Console.WriteLine($"* Long text with 10 word wrap:\n{longText.SetWordWrap(11)}");
+
+            string[] websites = {
+                "01101000011101000111010001110000001110100010111100101111011101110111011101110111001011100110010101100101011011000111001101101100011000010111000000101110011000110110111101101101",
+                "011010000111010001110100011100000011101000101111001011110110001101101111011100100110011101101001011011110111001001100111011110010010111001100011011011110110110100101111",
+                "01101000011101000111010001110000001110100010111100101111011011100110111101101111011011110110111101101111011011110110111101101111011011110110111101101111011011110110111101101111011011110010111001100011011011110110110100101111",
+                "011010000111010001110100011100000011101000101111001011110110100001100001011011100110010101101011011001010010111001101110011001010111010000101111"
+            };
+            foreach (string site in websites)
+            {
+                Console.WriteLine($"Translating byte string: {site}...");
+                Console.WriteLine($"* {StringUtils.TranslateByteString(site)}");
+            }
 
             Console.WriteLine("Performance diagnostics:");
             BenchmarkRunner.Run<StringUtilsBenchmarkDemo>();
