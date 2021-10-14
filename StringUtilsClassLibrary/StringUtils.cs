@@ -28,10 +28,81 @@ namespace StringUtilsClassLibrary
             return reversedCaseString.ToString();
         }
 
-        public static float GetWidth(this string text, Font font)
+        public static string Capitalize(this string text)
         {
-            return graphics.MeasureString(text, font).Width;
+            StringBuilder capitalizedCaseString = new(text.ToLower());
+            char firstLetter = capitalizedCaseString[0];
+            if (Char.IsLetter(firstLetter))
+            {
+                capitalizedCaseString[0] = Char.ToUpper(firstLetter);
+            }
+            return capitalizedCaseString.ToString();
         }
+
+        public static string ToTitleCase(this string text)
+        {
+            StringBuilder titleCaseString = new();
+            bool? isNewWord = null;
+
+            titleCaseString.Append(Char.ToUpper(text[0]));
+            for (int i = 1; i < text.Length - 1; i++)
+            {
+                char letter = text[i];
+                if (Char.IsWhiteSpace(letter) || Char.IsPunctuation(letter))
+                {
+                    isNewWord = true;
+                    titleCaseString.Append(letter);
+                }
+                else
+                {
+                    if ((isNewWord ?? false) && !(Char.IsWhiteSpace(text[i + 1]) || Char.IsPunctuation(text[i + 1])))
+                    {
+                        titleCaseString.Append(Char.ToUpper(letter));
+                    }
+                    else
+                    {
+                        titleCaseString.Append(Char.ToLower(letter));
+                    }
+                    isNewWord = false;
+                }
+            }
+            titleCaseString.Append(Char.ToLower(text[^1]));
+            return titleCaseString.ToString();
+        }
+
+        //public static string ToTitleCaseOld(this string text)
+        //{
+        //    StringBuilder titleCaseString = new();
+        //    bool isNewWord = false;
+
+        //    foreach (char letter in text)
+        //    {
+        //        if (Char.IsWhiteSpace(letter) || Char.IsPunctuation(letter))
+        //        {
+        //            titleCaseString.Append(letter);
+        //            isNewWord = true;
+        //        }
+        //        else
+        //        {
+        //            if (isNewWord)
+        //            {
+        //                titleCaseString.Append(Char.ToUpper(letter));
+        //            }
+        //            else
+        //            {
+        //                titleCaseString.Append(Char.ToLower(letter));
+        //            }
+        //            isNewWord = false;
+        //        }
+        //    }
+        //    titleCaseString[0] = Char.ToUpper(titleCaseString[0]);
+        //    return titleCaseString.ToString();
+        //}
+
+        //public static float GetWidthOld(this string text, Font font)
+        //{
+        //    return graphics.MeasureString(text, font).Width;
+        //}
 
         public static string SetWordWrap(this string text, int maxCharactersPerLine)
         {
@@ -80,58 +151,58 @@ namespace StringUtilsClassLibrary
         }
 
         // My first attempt
-        public static string TranslateByteString_Old(string bytes)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (string byteString in bytes.SplitAtParts(8))
-            {
-                byte value = 128;
-                byte current = 0;
-                foreach (char bit in byteString)
-                {
-                    if (bit == '1')
-                    {
-                        current += value;
-                    }
-                    value /= 2;
-                }
-                stringBuilder.Append((char)current);
-            }
-            return stringBuilder.ToString();
-        }
+        //public static string TranslateByteString_Old(string bytes)
+        //{
+        //    StringBuilder stringBuilder = new StringBuilder();
+        //    foreach (string byteString in bytes.SplitAtParts(8))
+        //    {
+        //        byte value = 128;
+        //        byte current = 0;
+        //        foreach (char bit in byteString)
+        //        {
+        //            if (bit == '1')
+        //            {
+        //                current += value;
+        //            }
+        //            value /= 2;
+        //        }
+        //        stringBuilder.Append((char)current);
+        //    }
+        //    return stringBuilder.ToString();
+        //}
 
         // Given example solution by Henrik
-        public static string TranslateByteString_Henrik(string bytes)
-        {
-            int index = 7; // Start with MSB to the right of the 8 bits
-            char result = (char)0;
-            StringBuilder textBuilder = new StringBuilder();
-            foreach (char t in bytes)
-            {
-                // Skip anything that is not '0' or '1'
-                if ((t == '0') || (t == '1'))
-                {
-                    if (t == '1')
-                    {
-                        result += (char)(1 << index); // Using the left-shift operator
-                    }
-                    index--;
-                    if (index == -1)
-                    {
-                        // Copy the new char to the output text, reset result and index
-                        textBuilder.Append(result);
-                        result = (char)0;
-                        index = 7;
-                    }
-                }
-            }
-            return textBuilder.ToString();
+        //public static string TranslateByteString_Henrik(string bytes)
+        //{
+        //    int index = 7; // Start with MSB to the right of the 8 bits
+        //    char result = (char)0;
+        //    StringBuilder textBuilder = new StringBuilder();
+        //    foreach (char t in bytes)
+        //    {
+        //        // Skip anything that is not '0' or '1'
+        //        if ((t == '0') || (t == '1'))
+        //        {
+        //            if (t == '1')
+        //            {
+        //                result += (char)(1 << index); // Using the left-shift operator
+        //            }
+        //            index--;
+        //            if (index == -1)
+        //            {
+        //                // Copy the new char to the output text, reset result and index
+        //                textBuilder.Append(result);
+        //                result = (char)0;
+        //                index = 7;
+        //            }
+        //        }
+        //    }
+        //    return textBuilder.ToString();
 
-        }
+        //}
 
-        private static IEnumerable<string> SplitAtParts(this string str, int chunkSize)
-        {
-            return Enumerable.Range(0, str.Length / chunkSize).Select(i => str.Substring(i * chunkSize, chunkSize));
-        }
+        //private static IEnumerable<string> SplitAtParts(this string str, int chunkSize)
+        //{
+        //    return Enumerable.Range(0, str.Length / chunkSize).Select(i => str.Substring(i * chunkSize, chunkSize));
+        //}
     }
 }
